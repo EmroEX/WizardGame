@@ -1,0 +1,2 @@
+# WizardGame
+Igrica wizard game
