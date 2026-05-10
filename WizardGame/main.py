@@ -1,64 +1,45 @@
 import pygame
-import math
+from sys import exit
 from Entities.entities import entities
 from Engine.Game import game
+from Engine.Game import keyboard
+from GUI.Main_Menu import main_menu
 
 
 def main():
-
+    
     pygame.init()
 
-    clock = pygame.time.Clock()
 
-    neki = game.GameMap(r'World\mapa.tmx')
+    informacije_zaslona = pygame.display.Info()
+    # Dobimo velikost monitorja oz. zaslona, in z priv. spremenljivko onemogočimo slučajno spreminjanje
+    width, height = informacije_zaslona.current_w, informacije_zaslona.current_h
+    zaslon = pygame.display.set_mode((width,height))
+    #zaslon= pygame.display.set_mode((width,height), pygame.FULLSCREEN)  - na ta način loh FULLSCREEN nastavimo, loh pa pač samo od podanega kuk je zaslon velik
+    
+    zaslon.fill('black')
 
-    neki.player.začetek()
+    while True:
+        keyboard.keys.clear()      #Tole se mora sproti čistiti ker drugač se bo npr ESC v nedolged ponavlju ko gremo iz enega fila v drugi
+        result = main_menu.main_menu(width, height)         #Pa to sem si mogu pomagati z AI ker nisem mogel ugotoviti kje je napaka pač sem mislu da je problem v klicih ampak je blo, da se ni keys spraznu
 
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            
-
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            running = False
-
-        #if (keys[pygame.K_a] and keys[pygame.K_s]):
-            #neki.player.move(-(neki.player.move_speed//2),neki.player.move_speed//2)          #Ko se premikam v dve smeri hkrati gre player mal hitreje
-        temp_x = neki.player.x + neki.player.move_speed
-        temp_y = neki.player.y + neki.player.move_speed
-
-        if neki.can_move(temp_x,temp_y):
-            if keys[pygame.K_w]:
-                neki.player.move(0, -neki.player.move_speed)
-            if keys[pygame.K_s]:
-                neki.player.move(0, neki.player.move_speed)
-            if keys[pygame.K_a]:
-                neki.player.move(-neki.player.move_speed, 0)
-            if keys[pygame.K_d]:
-                neki.player.move(neki.player.move_speed, 0)
-
-        #print((neki.player.x,neki.player.y))             #Tako sem prišel do spawn pointa
-
-        neki.zaslon.fill((30, 30, 30))
-
-        neki.draw()
-        for e in entities:
-            e.draw_sprite(neki.zaslon)
-
-
-        pygame.display.flip()
-        clock.tick(60)
         
+        if result == 'play':
+            
+            keyboard.keys.clear()
+            print("Starting game")
+            result = game.game()
+
+
+        elif result == 'menu':
+            continue
+
+        elif result == 'quit':
+            break
+            
     pygame.quit()
-
-
-
-
-
-
-
+    exit()
+        
+    
 if __name__ == "__main__":
     main()

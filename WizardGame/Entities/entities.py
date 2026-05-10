@@ -12,7 +12,7 @@ class Entities():
             self.slika = loaded[slika]
 
         else:
-            self.slika = pygame.image.load(slika).convert_alpha()
+            self.slika = pygame.image.load(slika).convert_alpha()      #convert alpha je pa zaradi transparancija da se pravi izriše
             # scalam playarja ker sem tudi tile povečal pa da bo približno okej zgledal
             self.slika = pygame.transform.scale(self.slika, (32, 48))
             loaded[slika] = self.slika
@@ -22,6 +22,8 @@ class Entities():
         self.hp = zdravje
         self.move_speed = hitrost
         entities.append(self)
+        self.rect = pygame.Rect(self.x, self.y, self.slika.get_width(), self.slika.get_height())
 
     def draw_sprite(self, screen):
         screen.blit(self.slika, (self.x - camera.x, self.y - camera.y))
+        
