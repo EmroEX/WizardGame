@@ -6,17 +6,19 @@ from Engine.Game import game
 from Engine.Game import keyboard
 
 
+
 def get_font(size, oddebeljeno): # Dobiš nazaj željeno velikost fonta
     return pygame.font.SysFont('papyrus', size, bold=oddebeljeno)
 
 
 
 def main_menu(x,y):
-
+    
     screen = pygame.display.set_mode((x,y))
     screen.fill('black')
     pygame.display.set_caption('WizardGame')
 
+    
     while True:
         
         screen.fill("black")
